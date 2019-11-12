@@ -24,7 +24,7 @@ public class ModelLoginLog extends AndroidViewModel {
 
 
     @SuppressLint("StaticFieldLeak")
-    void showData(final RwAdapterLoginLog adapter, final String username) {
+    public void showData(final RwAdapterLoginLog adapter, final String username) {
         new AsyncTask<Void, Void, List<EntityLoginLog>>() {
             @Override
             protected List<EntityLoginLog> doInBackground(Void... params) {
