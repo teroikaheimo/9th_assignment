@@ -40,22 +40,22 @@ public class MainActivity extends AppCompatActivity {
         loginFailedToast = Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_LONG);
 
         // Views
-        login = findViewById(R.id.button_login);
-        register = findViewById(R.id.button_register);
+        login = findViewById(R.id.login_login);
+        register = findViewById(R.id.login_register);
 
         // Buttons functionality
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Content.class);
-                MainActivity.this.startActivity(intent);
+                startActivity(intent);
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Register.class);
-                MainActivity.this.startActivity(intent);
+                startActivity(intent);
             }
         });
     }
