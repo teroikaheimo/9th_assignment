@@ -1,13 +1,18 @@
 package com.example.a9th_assingment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.a9th_assingment.room.EntityUser;
+import com.example.a9th_assingment.room.ModelUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /*
@@ -32,30 +37,46 @@ public class MainActivity extends AppCompatActivity {
     private Toast loginFailedToast;
     private Button login;
     private FloatingActionButton register;
+    private ModelUser modelUser;
+    private Intent openContent, openRegistering;
+    private EditText username, password;
+    private Activity ctx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         loginFailedToast = Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_LONG);
+        openContent = new Intent(this, Content.class);
+        openRegistering = new Intent(MainActivity.this, Register.class);
+        modelUser = new ViewModelProvider(this).get(ModelUser.class);
 
         // Views
         login = findViewById(R.id.login_login);
         register = findViewById(R.id.login_register);
+        username = findViewById(R.id.login_username);
+        password = findViewById(R.id.login_password);
+        ctx = this;
+
+        // Add user to database
+        EntityUser x = new EntityUser();
+        x.username = "root";
+        x.password = "root";
+        modelUser.insert(x);
 
         // Buttons functionality
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Content.class);
-                startActivity(intent);
+                String usernameText = username.getText().toString();
+                String passwordText = password.getText().toString();
+                modelUser.confirmLogin(usernameText, passwordText, openContent, ctx, loginFailedToast);
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Register.class);
-                startActivity(intent);
+                startActivity(openRegistering);
             }
         });
     }

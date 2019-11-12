@@ -12,6 +12,9 @@ public interface DaoUser {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(EntityUser user);
 
-    @Query("SELECT * FROM users WHERE username = :username & password = :password; ")
+    @Query("SELECT * FROM EntityUser WHERE username = :username AND password = :password LIMIT 1; ")
     List<EntityUser> getUser(String username, String password);
+
+    @Query("SELECT * FROM EntityUser")
+    List<EntityUser> getAllUsers();
 }

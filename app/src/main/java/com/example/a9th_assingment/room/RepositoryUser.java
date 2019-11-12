@@ -17,6 +17,10 @@ public class RepositoryUser {
         return daoUser.getUser(username, password);
     }
 
+    List<EntityUser> getAllUsers() {
+        return daoUser.getAllUsers();
+    }
+
     public void insert(EntityUser entityUser) {
         new insertAsyncTask(daoUser).execute(entityUser);
     }
