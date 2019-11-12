@@ -1,9 +1,14 @@
 package com.example.a9th_assingment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /*
 * Make an application which has three screens:
@@ -25,12 +30,35 @@ Usernames, passwords and login information is stored in SQLite database and it's
 
 public class MainActivity extends AppCompatActivity {
     private Toast loginFailedToast;
-
+    private Button login;
+    private FloatingActionButton register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         loginFailedToast = Toast.makeText(getApplicationContext(), "Login Failed!", Toast.LENGTH_LONG);
+
+        // Views
+        login = findViewById(R.id.button_login);
+        register = findViewById(R.id.button_register);
+
+        // Buttons functionality
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Content.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Register.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
     }
+
+
 }
