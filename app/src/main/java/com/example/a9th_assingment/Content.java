@@ -6,17 +6,43 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.a9th_assingment.room.ModelLoginLog;
+import com.example.a9th_assingment.room.RwAdapterLoginLog;
 
 public class Content extends AppCompatActivity {
     private Button logout;
+    private ModelLoginLog modelLoginLog;
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
-        logout = findViewById(R.id.content_logout);
+        username = getIntent().getStringExtra("username");
+
 
         // Views
+        logout = findViewById(R.id.content_logout);
+
+        // RecyclerView
+        // NameDate RecyclerView
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+        final RwAdapterLoginLog adapter = new RwAdapterLoginLog(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Database
+        modelLoginLog = new ViewModelProvider(this).get(ModelLoginLog.class);
+        modelLoginLog.showData(adapter, username);
+
+        // Button functionality
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

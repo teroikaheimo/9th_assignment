@@ -1,5 +1,6 @@
 package com.example.a9th_assingment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.a9th_assingment.room.EntityUser;
+import com.example.a9th_assingment.room.ModelLoginLog;
 import com.example.a9th_assingment.room.ModelUser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -38,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
     private Button login;
     private FloatingActionButton register;
     private ModelUser modelUser;
+    private ModelLoginLog modelLoginLog;
     private Intent openContent, openRegistering;
     private EditText username, password;
     private Activity ctx;
+
+    @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         openContent = new Intent(this, Content.class);
         openRegistering = new Intent(MainActivity.this, Register.class);
         modelUser = new ViewModelProvider(this).get(ModelUser.class);
+        modelLoginLog = new ViewModelProvider(this).get(ModelLoginLog.class);
 
         // Views
         login = findViewById(R.id.login_login);
@@ -58,11 +63,6 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.login_password);
         ctx = this;
 
-        // Add user to database
-        EntityUser x = new EntityUser();
-        x.username = "root";
-        x.password = "root";
-        modelUser.insert(x);
 
         // Buttons functionality
         login.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String usernameText = username.getText().toString();
                 String passwordText = password.getText().toString();
-                modelUser.confirmLogin(usernameText, passwordText, openContent, ctx, loginFailedToast);
+                modelUser.confirmLogin(usernameText, passwordText, openContent, ctx, loginFailedToast, modelLoginLog);
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
